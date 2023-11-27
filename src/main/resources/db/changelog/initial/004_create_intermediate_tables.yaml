@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create intermediate tables for user to role and role to authority
+      author: Aleksei
+      changes:
+        - createTable:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_email
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    foreignKeyName: fk_user_email_id
+                    references: user_table(email)
+              - column:
+                  name: role_id
+                  type: long
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    foreignKeyName: fk_role_id_to_user
+                    references: roles(id)
+        - createTable:
+            tableName: roles_authorities
+            columns:
+              - column:
+                  name: role_id
+                  type: long
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    foreignKeyName: fk_role_id
+                    references: roles(id)
+              - column:
+                  name: authority_id
+                  type: long
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    foreignKeyName: fk_authority_id
+                    references: authorities(id)

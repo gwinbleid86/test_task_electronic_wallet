@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert users
+      author: Aleksei
+      changes:
+        - sql:
+            sql: |
+              insert into user_table(email, username, password, enabled)
+              values (
+                'qwe@qwe.qwe',
+                'qwe',
+                '$2a$12$WB2YUbFcCN0tm44SBcKUjua9yiFBsfB3vW02IjuwzY7HGtlQIKzy2',
+                true
+              ),
+              (
+                'ewq@ewq.com',
+                'ewq',
+                '$2a$12$WB2YUbFcCN0tm44SBcKUjua9yiFBsfB3vW02IjuwzY7HGtlQIKzy2',
+                true
+              )
+  - changeSet:
+      id: insert authorities
+      author: Aleksei
+      changes:
+        - sql:
+            comment: Insert data into authority
+            sql: |
+              insert into authorities (authority)
+              values('FULL');
+  - changeSet:
+      id: insert roles
+      author: Aleksei
+      changes:
+        - sql:
+            comment: Insert data into roles
+            sql: |
+              insert into roles(role)
+              values ('AUTHENTICATED_USER');
+
+  - changeSet:
+      id: insert roles_authorities
+      author: Aleksei
+      changes:
+        - sql:
+            comment: Insert data into roles_authorities
+            sql: |
+              insert into roles_authorities(role_id, authority_id)
+              values (
+                (select id from roles where role like 'AUTHENTICATED_USER'),
+                (select id from authorities where authority like 'FULL')
+              );
+
+  - changeSet:
+      id: insert users_roles
+      author: Aleksei
+      changes:
+        - sql:
+            comment: Insert data into users_roles
+            sql: |
+              insert into users_roles(user_email, role_id)
+              values (
+                (select email from user_table where email like 'qwe@qwe.qwe'),
+                (select id from roles where role like 'AUTHENTICATED_USER')
+              ),
+              (
+                (select email from user_table where email like 'ewq@ewq.com'),
+                (select id from roles where role like 'AUTHENTICATED_USER')
+              );

@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create users
+      author: admin
+      changes:
+        - createTable:
+            tableName: user_table
+            columns:
+              - column:
+                  name: email
+                  type: varchar(45)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: username
+                  type: varchar(45)
+              - column:
+                  name: password
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: balance
+                  type: double
+                  defaultValueNumeric: 8.0
